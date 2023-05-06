@@ -9,6 +9,7 @@ require('dotenv').config();
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
+const errorHandler = require('./routes/errors');
 
 let app = express();
 
@@ -38,6 +39,8 @@ fccTestingRoutes(app);
 
 //Routing for API 
 apiRoutes(app);  
+
+app.use(errorHandler);
     
 //404 Not Found Middleware
 app.use(function(req, res, next) {
@@ -47,6 +50,7 @@ app.use(function(req, res, next) {
 });
 
 //Start our server and tests!
+if(!module.parent){
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
   if(process.env.NODE_ENV==='test') {
@@ -61,5 +65,6 @@ const listener = app.listen(process.env.PORT || 3000, function () {
     }, 3500);
   }
 });
+}
 
 module.exports = app; //for testing
