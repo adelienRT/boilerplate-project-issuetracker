@@ -1,8 +1,8 @@
-let cuid = require('cuid');
+gitlet cuid = require('cuid');
 var fs = require('fs');
 
 module.exports = function (insertDbname) {
-  this.falseDb = []
+  this.falseDb = [{"assigned_to":"","status_text":"","open":true,"_id":"63126b66fb7c75018f7b3ff9","issue_title":"title1","issue_text":"text1","created_by":"Ade","created_on":"2022-09-02T20:45:26.271Z","updated_on":"2023-04-18T08:49:17.465Z"},{"assigned_to":"","status_text":"","open":true,"_id":"63126b66fb7c75018f7b3ff9","issue_title":"title1","issue_text":"text1","created_by":"Ade","created_on":"2022-09-02T20:45:26.271Z","updated_on":"2023-04-18T08:49:17.465Z"}]
   let dbname = insertDbname;
   let path = `./controller/falseControllers/falseDatabase/${dbname}.json`
 
