@@ -8,4 +8,9 @@ function initialiseDbTest(dbname){
   return db
 };
 
-module.exports = {initialiseDbTest};
+function resetDbTest(dbname){
+  let db = new Db(dbname)
+  db.reset();
+}
+
+module.exports = {initialiseDbTest,resetDbTest};

@@ -1,11 +1,9 @@
-const chai = require('chai');
-let assert = chai.assert;
 let update = require('../controller/update');
 
-let { initialiseDbTest } = require("./utilsTests/utilsFunctionsTests");
-initialiseDbTest('UpdateUnitTestDb');
-
-suite('Update() Unit Tests', function(){
+module.exports = function(assert,utils){
+  let db = utils.functions.initialiseDbTest('UpdateUnitTestDb');
+  
+  suite('Update() Unit Tests', function(){
   test('update should return an modified issue with correct items',()=>{
     let t0 = Date.now();
     
@@ -43,4 +41,6 @@ suite('Update() Unit Tests', function(){
     db.reset()
   })
 });
+}
+
       

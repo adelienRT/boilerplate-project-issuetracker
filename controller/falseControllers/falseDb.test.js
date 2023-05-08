@@ -1,12 +1,7 @@
-const chai = require('chai');
-let assert = chai.assert;
-let { initialiseDbTest } = require("./utilsTests/utilsFunctionsTests");
-let {issueTestNr1,issueTestNr2} = require('./utilsTests/utilsConstantsTests');
-
-
-suite('Unit Tests FalseDatabase', function(){
-  db = initialiseDbTest('FalseDbTestsName1');
-  db2 = initialiseDbTest('FalseDbTestsName2');
+module.exports = function(assert,utils){
+  suite('Unit Tests FalseDatabase', function(){
+  db = utils.functions.initialiseDbTest('FalseDbTestsName1');
+  db2 = utils.functions.initialiseDbTest('FalseDbTestsName2');
   
   test('should return the db name',()=>{
     let dbname1 = db.getdbName();
@@ -48,7 +43,7 @@ suite('Unit Tests FalseDatabase', function(){
 
   test('db should return an issue from a valid id',()=>{
     let issue = db.getIssueFromId("63126b66fb7c75018f7b3ff9");
-    assert.deepEqual(issue,issueTestNr1);
+    assert.deepEqual(issue,utils.constants.issueTestNr1);
   })
 
   test('db should return an error from an invalid id',()=>{
@@ -59,11 +54,11 @@ assert.throws(()=>db.getIssueFromId("falseId"),'invalid id');
     let initialise = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Ade'})
     let beforeUpdate = db.getFilter({_id:"63126b66fb7c75018f7b3ff9"});
        
-    assert.deepEqual(beforeUpdate[0],issueTestNr1);
+    assert.deepEqual(beforeUpdate[0],utils.constants.issueTestNr1);
 
     let afterUpdate = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Dorian'});
 
-    let response = {...issueTestNr1}
+    let response = {...utils.constants.issueTestNr1}
     response.created_by = 'Dorian'
     assert.deepEqual(afterUpdate,response);
   });
@@ -71,9 +66,9 @@ assert.throws(()=>db.getIssueFromId("falseId"),'invalid id');
   test('db should update multiple items',()=>{
     let initialise = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Ade',issue_text:'text1' });
     let beforeUpdate = db.getFilter({_id:"63126b66fb7c75018f7b3ff9"});
-    assert.deepEqual(beforeUpdate[0],issueTestNr1);
+    assert.deepEqual(beforeUpdate[0],utils.constants.issueTestNr1);
     let afterUpdate = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Dorian',issue_text:'updated text'});
-    let response = {...issueTestNr1};
+    let response = {...utils.constants.issueTestNr1};
     response.created_by = 'Dorian';
     response.issue_text = 'updated text';
 
@@ -100,3 +95,4 @@ db.insertIssue({issue_title:'testTitle',issue_text:'testDescription',created_by:
   })
 
 });
+}

@@ -1,11 +1,8 @@
-const chai = require('chai');
-let assert = chai.assert;
-const IssueHandler = require('../controller/issue.js');
-
+const IssueHandler = require('./issue.js');
 let issueHandler = new IssueHandler();
 
-
-suite('Unit Tests', function(){
+module.exports = issueUnit = function(assert,utils){
+  return suite('Unit Tests', function(){
 
   suite('issue.js',()=>{
      
@@ -56,7 +53,7 @@ suite('Unit Tests', function(){
       assert.throws(()=>issueHandler.getCreatedBy(),'invalid ');
     });
     });
-  
   });
   
     });
+}

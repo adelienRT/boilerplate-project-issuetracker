@@ -4,16 +4,16 @@ const assert = chai.assert;
 const server = require('../server');
 chai.use(chaiHttp);
 
-let {initialiseDbTest} = require('./utilsTests/utilsFunctionsTests');
-let functionnalDBNAME = 'FunctionalTests'
-initialiseDbTest(functionnalDBNAME);
-
-suite('Functional Tests', function() {
+module.exports = function(utils){
+  let functionalDBNAME = utils.constants.functionalDBNAME;
+  let db = utilsTests.functions.initialiseDbTest(functionalDBNAME);
+  
+  suite('Functional Tests', function() {
 
   suite('POST /api/issues/{project}',()=>{
       suite('valid tests',()=>{
 
-    let validFunctionnalTests = [{testName:'Create an issue with every field: POST request to /api/issues/{project}',
+    let validFunctionalTests = [{testName:'Create an issue with every field: POST request to /api/issues/{project}',
                                   send:{issue_title:"titleissue",issue_text:"textissue",created_by:"Ades",assigned_to:"test",status_text:"status"},
                                   response:{"assigned_to":"test",
                          "status_text":"status",
@@ -38,7 +38,7 @@ suite('Functional Tests', function() {
                         "updated_on":new Date(Date.now())},
                                  },
                                 ]
-      validFunctionnalTests.map((testresponse)=>{
+      validFunctionalTests.map((testresponse)=>{
           test(`${testresponse.testName}`,(done)=>{
         
       let response = testresponse.response
@@ -67,7 +67,7 @@ suite('Functional Tests', function() {
   }); 
       suite('invalid tests',()=>{
 
-    let InvalidFunctionnalTests = [{testName:'Create an issue with missing issue_title: POST request to /api/issues/{project}',
+    let InvalidFunctionalTests = [{testName:'Create an issue with missing issue_title: POST request to /api/issues/{project}',
                                   send:{issue_text:"textissue",created_by:"Ades"},
                                   response:{error:'required field(s) missing'}},
                                   {testName:'Create an issue with missing issue_text: POST request to /api/issues/{project}',
@@ -77,7 +77,7 @@ suite('Functional Tests', function() {
                                   send:{issue_text:"textissue", issue_title:"titleissue"},
                                   response:{error:'required field(s) missing'}}]
 
-    InvalidFunctionnalTests.map((testresponse)=>{
+    InvalidFunctionalTests.map((testresponse)=>{
           test(`${testresponse.testName}`,(done)=>{
         
       let response = testresponse.response
@@ -85,7 +85,7 @@ suite('Functional Tests', function() {
       chai
       .request(server)
       .keepOpen()
-      .post('/api/issues/FunctionnalInvalidtest')
+      .post('/api/issues/FunctionalInvalidtest')
       .send(testresponse.send)
       .end(function(err,res){
         assert.equal(res.status,200);
@@ -119,7 +119,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .get('/api/issues/'+functionnalDBNAME+'?open=false')
+      .get('/api/issues/'+functionalDBNAME+'?open=false')
       .end(function(err,res){
         assert.equal(res.status,200);
         assert.equal(res.type,'application/json');
@@ -132,7 +132,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .get('/api/issues/'+functionnalDBNAME+'?open=false&issue_text=text2')
+      .get('/api/issues/'+functionalDBNAME+'?open=false&issue_text=text2')
       .end(function(err,res){
         assert.equal(res.status,200);
         assert.equal(res.type,'application/json');
@@ -147,7 +147,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .put('/api/issues/'+functionnalDBNAME)
+      .put('/api/issues/'+functionalDBNAME)
       .send({_id:'63126b9bfb7c75018f7b3ffb',issue_title:'testnameToChange',created_by:'newPerson',assigned_to:'newIssue',status_text:'this is a new status',open:false})
       .end(function(err,res){
         assert.equal(res.status,200);
@@ -168,3 +168,5 @@ suite('Functional Tests', function() {
   });
 
 });
+}
+
