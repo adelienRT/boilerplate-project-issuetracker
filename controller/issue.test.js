@@ -12,6 +12,15 @@ module.exports = issueUnit = function(assert,utils){
     });
     });
     };
+  let assertDateIsCloseToResponse = function(arrayDateToTest){
+      arrayDateToTest.map((dateTest)=>{
+      test(dateTest.title,()=>{
+      let dateToTest = Date.parse(dateTest.function);
+      let dateResponse = Date.parse(dateTest.response)
+      assert.closeTo(dateToTest, dateResponse, 300) 
+    });
+  });
+  };
 
   return suite('Unit Tests: issue.js', function(){
     suite('IssueHandler.getIssueTitle()',()=>{
@@ -74,5 +83,20 @@ module.exports = issueUnit = function(assert,utils){
       ];
       assertFunctionEqualResponse(issuesToTests);       
     });  
+
+    suite('IssueHandler.getCreatedOn()',()=>{
+    let dateTests =[
+      {title:'should give created on date',function:issueHandler.getCreatedOn(),response:new Date(Date.now()).toISOString()}
+    ];
+      assertDateIsCloseToResponse(dateTests);
+    });
+
+    suite('IssueHandler.getUpdatedOn()',()=>{
+    let dateTests =[
+      {title:'should give updated on date',function:issueHandler.getUpdatedOn(),response:new Date(Date.now()).toISOString()}
+    ];
+      assertDateIsCloseToResponse(dateTests);
+    });
+    
     });
 }
