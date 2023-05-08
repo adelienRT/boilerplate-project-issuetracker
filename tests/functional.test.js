@@ -11,7 +11,7 @@ module.exports = function(utils){
   suite('Functional Tests', function() {
 
   suite('POST /api/issues/{project}',()=>{
-      suite('valid tests',()=>{
+      suite('ok',()=>{
 
     let validFunctionalTests = [{testName:'Create an issue with every field: POST request to /api/issues/{project}',
                                   send:{issue_title:"titleissue",issue_text:"textissue",created_by:"Ades",assigned_to:"test",status_text:"status"},
@@ -65,7 +65,7 @@ module.exports = function(utils){
     });
       })
   }); 
-      suite('invalid tests',()=>{
+      suite('not ok',()=>{
 
     let InvalidFunctionalTests = [{testName:'Create an issue with missing issue_title: POST request to /api/issues/{project}',
                                   send:{issue_text:"textissue",created_by:"Ades"},
@@ -95,7 +95,7 @@ module.exports = function(utils){
     });
       })
     
-  });
+  });    
   });
 
   suite('GET /api/issues/{project}',()=>{
