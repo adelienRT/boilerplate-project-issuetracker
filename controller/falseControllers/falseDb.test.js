@@ -1,5 +1,5 @@
 module.exports = function(assert,utils){
-  suite('Unit Tests FalseDatabase', function(){
+  suite('Unit Tests: falseDB.js', function(){
   db = utils.functions.initialiseDbTest('FalseDbTestsName1');
   db2 = utils.functions.initialiseDbTest('FalseDbTestsName2');
   

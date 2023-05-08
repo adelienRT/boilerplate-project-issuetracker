@@ -2,7 +2,7 @@ let deleteIssue = require('../controller/delete');
 
 module.exports = function(assert,utils){
   let db = utils.functions.initialiseDbTest('DeleteUnitTestDb');
-  suite('delete Unit Test',()=>{
+  suite('Unit Tests delete.js',()=>{
   test('assert delete an exisant issue with a valid id',()=>{
     let id = '63126b66fb7c75018f7b3ff9'
     let response = deleteIssue(id,db);

@@ -11,12 +11,13 @@ let deleteTest = require('../controller/delete.test');
 
 let functionalTest= require('./functional.test');
 
-//Unit tests
+//Unit test
 issueTest(assert,utilsTests);
 falseDbTest(assert,utilsTests);
 
 updateTest(assert,utilsTests);
 deleteTest(assert,utilsTests);
+
 
 //Functional Tests
 functionalTest(utilsTests);
