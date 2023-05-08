@@ -1,17 +1,8 @@
-const chai = require('chai');
-let assert = chai.assert;
-let Db = require('../controller/falseControllers/falseDB');
-let issueTestNr1 = {"assigned_to":"","status_text":"","open":true,"_id":"63126b66fb7c75018f7b3ff9","issue_title":"title1","issue_text":"text1","created_by":"Ade","created_on":"2022-09-02T20:45:26.271Z","updated_on":"2023-04-18T08:49:17.465Z"}
-let issueTestNr2 = {"assigned_to":"","status_text":"","open":false,"_id":"63126b9bfb7c75018f7b3ffb","issue_title":"tiutle2","issue_text":"text2","created_by":"Dodo","created_on":"2022-09-02T20:46:19.000Z","updated_on":"2023-04-16T19:25:45.737Z"}
-
-suite('Unit Tests FalseDatabase', function(){
-  let issueName1 = "FalseDbTestsName1";
-  let issueName2 = "FalseDbTestsName2";
-  let db = new Db(issueName1);
-  let db2 = new Db(issueName2);
-  db.import();
-  db2.import();
-
+module.exports = function(assert,utils){
+  suite('Unit Tests: falseDB.js', function(){
+  db = utils.functions.initialiseDbTest('FalseDbTestsName1');
+  db2 = utils.functions.initialiseDbTest('FalseDbTestsName2');
+  
   test('should return the db name',()=>{
     let dbname1 = db.getdbName();
     let dbname2 = db2.getdbName();
@@ -52,7 +43,7 @@ suite('Unit Tests FalseDatabase', function(){
 
   test('db should return an issue from a valid id',()=>{
     let issue = db.getIssueFromId("63126b66fb7c75018f7b3ff9");
-    assert.deepEqual(issue,issueTestNr1);
+    assert.deepEqual(issue,utils.constants.issueTestNr1);
   })
 
   test('db should return an error from an invalid id',()=>{
@@ -63,11 +54,11 @@ assert.throws(()=>db.getIssueFromId("falseId"),'invalid id');
     let initialise = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Ade'})
     let beforeUpdate = db.getFilter({_id:"63126b66fb7c75018f7b3ff9"});
        
-    assert.deepEqual(beforeUpdate[0],issueTestNr1);
+    assert.deepEqual(beforeUpdate[0],utils.constants.issueTestNr1);
 
     let afterUpdate = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Dorian'});
 
-    let response = {...issueTestNr1}
+    let response = {...utils.constants.issueTestNr1}
     response.created_by = 'Dorian'
     assert.deepEqual(afterUpdate,response);
   });
@@ -75,9 +66,9 @@ assert.throws(()=>db.getIssueFromId("falseId"),'invalid id');
   test('db should update multiple items',()=>{
     let initialise = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Ade',issue_text:'text1' });
     let beforeUpdate = db.getFilter({_id:"63126b66fb7c75018f7b3ff9"});
-    assert.deepEqual(beforeUpdate[0],issueTestNr1);
+    assert.deepEqual(beforeUpdate[0],utils.constants.issueTestNr1);
     let afterUpdate = db.updateIssue("63126b66fb7c75018f7b3ff9",{created_by:'Dorian',issue_text:'updated text'});
-    let response = {...issueTestNr1};
+    let response = {...utils.constants.issueTestNr1};
     response.created_by = 'Dorian';
     response.issue_text = 'updated text';
 
@@ -97,12 +88,6 @@ db.insertIssue({issue_title:'testTitle',issue_text:'testDescription',created_by:
     db.import();
   });
 
-  test('how does it works with a new db',()=>{
-    let db3 = new Db('FalseDbTestsName3');
-    db3.import();
-    db3.insertIssue(issueTestNr1);
-    db3.reset();
-  });
 
     test('reset the db',()=>{
     db.reset();
@@ -110,3 +95,4 @@ db.insertIssue({issue_title:'testTitle',issue_text:'testDescription',created_by:
   })
 
 });
+}
