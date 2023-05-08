@@ -2,8 +2,11 @@ const chaiHttp = require('chai-http');
 const chai = require('chai');
 const assert = chai.assert;
 const server = require('../server');
-
 chai.use(chaiHttp);
+
+let {initialiseDbTest} = require('./utilsTests/utilsFunctionsTests');
+let functionnalDBNAME = 'FunctionalTests'
+initialiseDbTest(functionnalDBNAME);
 
 suite('Functional Tests', function() {
 
@@ -82,7 +85,7 @@ suite('Functional Tests', function() {
       chai
       .request(server)
       .keepOpen()
-      .post('/api/issues/test')
+      .post('/api/issues/FunctionnalInvalidtest')
       .send(testresponse.send)
       .end(function(err,res){
         assert.equal(res.status,200);
@@ -100,7 +103,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .get('/api/issues/test')
+      .get('/api/issues/FunctionalTestsDb')
       .end(function(err,res){
         assert.equal(res.status,200);
         assert.equal(res.type,'application/json');
@@ -116,7 +119,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .get('/api/issues/FunctionalDbTests2?open=false')
+      .get('/api/issues/'+functionnalDBNAME+'?open=false')
       .end(function(err,res){
         assert.equal(res.status,200);
         assert.equal(res.type,'application/json');
@@ -129,7 +132,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .get('/api/issues/FunctionalDbTests3?open=false&issue_text=text2')
+      .get('/api/issues/'+functionnalDBNAME+'?open=false&issue_text=text2')
       .end(function(err,res){
         assert.equal(res.status,200);
         assert.equal(res.type,'application/json');
@@ -144,7 +147,7 @@ suite('Functional Tests', function() {
           chai
       .request(server)
       .keepOpen()
-      .put('/api/issues/FunctionalDbTests4')
+      .put('/api/issues/'+functionnalDBNAME)
       .send({_id:'63126b9bfb7c75018f7b3ffb',issue_title:'testnameToChange',created_by:'newPerson',assigned_to:'newIssue',status_text:'this is a new status',open:false})
       .end(function(err,res){
         assert.equal(res.status,200);

@@ -1,9 +1,9 @@
 const chai = require('chai');
 let assert = chai.assert;
 let update = require('../controller/update');
-let Db = require('../controller/falseControllers/falseDB');
-let db = new Db('UpdateUnitTestDb');
 
+let { initialiseDbTest } = require("./utilsTests/utilsFunctionsTests");
+initialiseDbTest('UpdateUnitTestDb');
 
 suite('Update() Unit Tests', function(){
   test('update should return an modified issue with correct items',()=>{
@@ -14,7 +14,6 @@ suite('Update() Unit Tests', function(){
     let now = new Date(Date.now());
 
     console.log('TEST time update',Date.now()-t0);
-
     
     assert.equal(updateresp._id,input._id);
     assert.equal(updateresp.created_by,input.created_by);
