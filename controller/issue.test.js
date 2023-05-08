@@ -32,7 +32,11 @@ module.exports = issueUnit = function(assert,utils){
       {title:'should read optional text input',function:issueHandler.getIssueText(undefined,'optional'),response:undefined},
       ];
 
-      assertFunctionEqualResponse(issuesToTests);       
+      assertFunctionEqualResponse(issuesToTests);  
+
+      test('should return an error if no text input', function(){
+      assert.throws(()=>issueHandler.getIssueText(),'invalid ');
+    });
     });
 
     suite('IssueHandler.getCreatedBy()',()=>{
@@ -41,7 +45,7 @@ module.exports = issueUnit = function(assert,utils){
       ];
       assertFunctionEqualResponse(issuesToTests);
 
-      test('IssueHandler.getCreatedBy should return an error if no name input', function(){
+      test('should return an error if no name input', function(){
       assert.throws(()=>issueHandler.getCreatedBy(),'invalid ');
     });
     });
@@ -69,8 +73,6 @@ module.exports = issueUnit = function(assert,utils){
         {title:'give the opening of this issue',name:'getOpen',function:issueHandler.getOpen(),response:true}
       ];
       assertFunctionEqualResponse(issuesToTests);       
-    });
-
-  
+    });  
     });
 }
